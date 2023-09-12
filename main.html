@@ -5,16 +5,21 @@
   <meta content="width=device-width, initial-scale=1">
 <style>
 
+@font-face {
+  font-family: customFEZz;
+  src: url(fonts/FEZz/fezz-webfont.woff);
+}
+
 .logo {
   text-align: center;
-  font-family: "FEZz";
-  font-size: 500%;
+  font-family: "customFEZz";
+  font-size: 290%;
 }
 
 .logo:hover {
   text-align: center
-  font-family: "FEZz";
-  font-size: 520%
+  font-family: "customFEZz";
+  font-size: 300%
 }
 
 #gradient {
@@ -39,7 +44,7 @@
   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)
 }
 
-.btn:hover {
+btn:hover {
   padding: 16px;
   font-size: 18px;
   border: 3px solid black;
@@ -52,10 +57,30 @@
   left: 30%
 }
 
+a:link {
+  color: white;
+  text-decoration: none;
+  display: inline-block;
+  padding: 16px;
+  font-size: 16px;
+  border: 5px solid black;
+  border-radius: 10px;
+  transition-duration: 0.3s;
+  text-align: center;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)
+}
+
+a:hover, a:active {
+  padding: 16px;
+  font-size: 18px;
+  border: 3px solid black;
+  border-radius: 12px;
+  cursor: pointer
+}
 
 </style>
 </head>
-<body style="background-color:grey; background-image: url('bg3.jpg'); background-repeat: repeat;">
+<body style="background-color:grey; background-image: url('bg.jpg'); background-repeat: repeat;">
 <div id="gradient">
   <div class="logo">
     LEO'S WEBSITE
@@ -63,10 +88,10 @@
 </div>
 <ln></ln>
 <div class="centered">
-  <button onclick="window.location.href='http://localhost:8096/web/index.html#!/home.html';" class="btn">Media System</button>
-  <button onclick="window.location.href='https://www.notion.so/jdii/d80f8ec551aa499c9f8c695899f49a28?v=a75d8364275245fea211823704ddac4f';" class="btn">Archival System</button>
-  <button onclick="window.location.href='https://docs.google.com/spreadsheets/d/1nFHBwHWiMOnpsO5LM6LfowLt2QPy9qixGutR0xv59Sg';" class="btn">Experiences Spreadsheet</button>
-  <button onclick="window.location.href='https://johnnydabb2.fandom.com/wiki/JohnnyDabb2_Wiki';" class="btn">Wiki</button>
+  <a href='http://localhost:8096/web/index.html#!/home.html' target="_blank" class="btn">Media System</a>
+  <a href='https://www.notion.so/jdii/d80f8ec551aa499c9f8c695899f49a28?v=a75d8364275245fea211823704ddac4f' target="_blank" class="btn">Archival System</a>
+  <a href='https://docs.google.com/spreadsheets/d/1nFHBwHWiMOnpsO5LM6LfowLt2QPy9qixGutR0xv59Sg' target="_blank" class="btn">Experiences Spreadsheet</a>
+  <a href='https://johnnydabb2.fandom.com/wiki/JohnnyDabb2_Wiki' target="_blank" class="btn">Wiki</a>
 </div>
 </body>
 </html>

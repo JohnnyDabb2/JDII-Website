@@ -13,7 +13,7 @@
 
 @font-face {
   font-family: customAngryBirds;
-  src: url(fonts/Star Jedi and Angry Birds/angrybirds-regular-webfont.woff);
+  src: url("fonts/Star Jedi and Angry Birds/angrybirds-regular-webfont.woff");
 }
 
 .logo {
@@ -36,9 +36,18 @@
 
 
 
+
 .navbar {
   overflow: hidden;
-  float: center;
+  float: left;
+  text-align: center;
+  display: block;
+}
+
+.navbar a {
+  float: none;
+  left: 45%;
+  display: block;
 }
 
 .dropdown-button, a {
@@ -53,17 +62,17 @@
   transition-duration: 0.3s;
   text-align: center;
   text-decoration: none;
+  font-family: customAngryBirds;
 }
 
 .dropdown-content {
   color: white;
-  background-color: green;
   padding: 16px;
   font-size: 16px;
-  border: 5px solid black;
+  border: 0px solid black;
   border-radius: 10px;
   transition-duration: 0.3s;
-  text-align: left;
+  text-align: center;
   font-family: Tahoma;
   display: none;
   text-decoration: none;
@@ -73,18 +82,18 @@
   border-radius: 3px;
   background-color: green;
   cursor: pointer;
+  font-size: 18px;
 }
 
 .dropdown-button:hover .dropdown-content {
   display: block;
   cursor: pointer;
+
 }
 
 .dropdown:hover .dropdown-content {
   display: block;
 }
-
-
 
 </style>
 <body style="background-color:navy;">
@@ -138,7 +147,7 @@
     </div>
 </div>
 
-<div style="color: white">
+<div style="color: white; text-align: center">
   <h1>
     This website is currently under construction!
   </h1>

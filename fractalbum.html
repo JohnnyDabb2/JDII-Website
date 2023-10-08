@@ -11,6 +11,11 @@
   src: url(fonts/FEZz/fezz-webfont.woff);
 }
 
+@font-face {
+  font-family: customAngryBirds;
+  src: url("fonts/Star Jedi and Angry Birds/angrybirds-regular-webfont.woff");
+}
+
 body {
   background-image: url("gifs/fractalbum.gif");
   background-position: center;
@@ -22,9 +27,37 @@ h1 {
   font-family: "customFEZz";
   font-size: 490%;
 }
+
+.topleft {
+  position: absolute;
+  top: 8px;
+  left: 16px;
+  font-size: 18px;
+}
+
+.dropdown-button, a {
+  float: left;
+  overflow: hidden;
+  color: white;
+  background-color: blue;
+  padding: 16px;
+  font-size: 16px;
+  border: 5px solid black;
+  border-radius: 10px;
+  transition-duration: 0.3s;
+  text-align: center;
+  text-decoration: none;
+}
+
+.dropdown-button:hover, a:hover {
+  border-radius: 3px;
+  background-color: green;
+  cursor: pointer;
+}
+
 </style>
 <body>
 <h1>COMING SOON...</h1>
-
+<a class="topleft" href="home.html">Go back...</a>
 </body>
 </html>

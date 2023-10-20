@@ -1,0 +1,153 @@
+body, div, dl, dt, dd, h1, h2, h3, h4, h5, h6, p, pre, code, blockquote {
+	margin:0;
+	padding:0;
+	border-width:0;
+}
+body {
+	-epub-hyphens:auto;
+}
+div.Basic-Graphics-Frame {
+	border-color:#000000;
+	border-width:1px;
+	border-style:solid;
+}
+div.Basic-Text-Frame {
+	border-style:solid;
+}
+p.Basic-Paragraph {
+	color:#000000;
+	font-family:"Minion Pro", serif;
+	font-size:12px;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:normal;
+	line-height:1.2;
+	margin-bottom:0;
+	margin-left:0;
+	margin-right:0;
+	margin-top:0;
+	orphans:1;
+	page-break-after:auto;
+	page-break-before:auto;
+	text-align:left;
+	text-decoration:none;
+	text-indent:0;
+	text-transform:none;
+	widows:1;
+}
+.Character-Style-2 {
+	font-size:14px;
+}
+span._idGenBNMarker-1 {
+	display:inline-block;
+	font-family:EmojiOne, sans-serif;
+	font-size:21px;
+	font-style:normal;
+	font-weight:normal;
+	text-indent:0;
+	width:19px;
+}
+p.ParaOverride-1 {
+	text-align:center;
+}
+p.ParaOverride-2 {
+	list-style-position:outside;
+	list-style-type:none;
+	margin-left:18px;
+	text-align:center;
+	text-indent:-18px;
+}
+span.CharOverride-1 {
+	font-family:FEZz, sans-serif;
+	font-size:174px;
+	font-style:normal;
+	font-weight:normal;
+}
+span.CharOverride-2 {
+	font-family:Tahoma, sans-serif;
+	font-size:40px;
+	font-style:normal;
+	font-weight:normal;
+}
+span.CharOverride-3 {
+	font-family:"Times New Roman", serif;
+	font-style:normal;
+	font-weight:normal;
+}
+span.CharOverride-4 {
+	font-family:"Times New Roman", serif;
+	font-size:70px;
+	font-style:normal;
+	font-weight:normal;
+}
+span.CharOverride-5 {
+	font-family:"Times New Roman", serif;
+	font-size:21px;
+	font-style:normal;
+	font-weight:normal;
+}
+#_idContainer000 {
+	height:100.00%;
+	left:0%;
+	overflow:hidden;
+	position:absolute;
+	top:0%;
+	width:100.00%;
+	z-index:0;
+}
+#_idContainer001 {
+	height:36.25%;
+	left:1.86%;
+	overflow:hidden;
+	position:absolute;
+	top:4.50%;
+	width:96.28%;
+	z-index:1;
+}
+#_idContainer002 {
+	height:5.33%;
+	left:18.51%;
+	overflow:hidden;
+	position:absolute;
+	top:19.96%;
+	width:62.97%;
+	z-index:2;
+}
+#_idContainer003 {
+	height:100.00%;
+	left:0%;
+	position:absolute;
+	top:0%;
+	width:100.00%;
+	z-index:0;
+}
+#_idContainer004 {
+	height:61.44%;
+	left:31.38%;
+	overflow:hidden;
+	position:absolute;
+	top:29%;
+	width:36.37%;
+	z-index:1;
+}
+#_idContainer005 {
+	display:inline-block;
+	padding:56.22% 0% 0% 0%;
+	position:relative;
+	width:100.00%;
+}
+img._idGenObjectAttribute-1 {
+	height:100.00%;
+	min-width:100%;
+	width:100.00%;
+}
+div._idGenObjectStyleOverride-1 {
+	border-width:0px;
+}
+div._idGenObjectStyleOverride-2 {
+	background-color:#ffec9a;
+	border-width:6px;
+}
+div._idGenObjectLayout-1 {
+	text-align:center;
+}

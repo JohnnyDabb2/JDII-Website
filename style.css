@@ -1,0 +1,47 @@
+@font-face {
+  font-family: customFEZz;
+  src: url(fonts/FEZz/fezz-webfont.woff);
+}
+
+@font-face {
+  font-family: customAngryBirds;
+  src: url("fonts/Angry Birds/angrybirds-regular-webfont.woff");
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.logo {
+  text-align: center;
+  font-family: "customFEZz";
+  font-size: 290%;
+  color: white;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.navbar a button {
+  width: 24.5%;
+  text-align: center;
+  display: inline-block;
+  overflow: hidden;
+  background-color: blue;
+  padding: 16px;
+  border: 4px solid black;
+  transition-duration: 0.3s;
+  font-size: 16px;
+  color: white;
+  font-family: customAngryBirds;
+}
+
+.navbar a button:hover {
+  background-color: lightblue;
+  padding: 13px;
+  cursor: pointer;
+  font-size:19px;
+}

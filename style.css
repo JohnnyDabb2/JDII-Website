@@ -1,6 +1,6 @@
 @font-face {
   font-family: customFEZz;
-  src: url(fonts/FEZz/fezz-webfont.woff);
+  src: url("fonts/FEZz/fezz-webfont.woff");
 }
 
 @font-face {
@@ -44,4 +44,8 @@
   padding: 13px;
   cursor: pointer;
   font-size:19px;
+}
+
+body {
+  background-color: blue;
 }

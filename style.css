@@ -76,3 +76,13 @@ div.desc {
   text-align: center;
   text-decoration: none;
 }
+
+#myVideo {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100vw;
+  min-height: 100vw;
+  z-index: -1;
+  object-fit: cover;
+}

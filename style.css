@@ -8,11 +8,14 @@
   src: url("fonts/Angry Birds/angrybirds-regular-webfont.woff");
 }
 
-*{
+* {
   margin:0;
   padding:0;
   box-sizing:border-box;
 }
+
+
+
 
 .logo {
   text-align: center;
@@ -27,11 +30,44 @@
   width: 100%;
 }
 
+.navbar a smallbutton {
+  background-color: #04AA6D;
+  border-radius: 15px;
+  border: 4px;
+  border-color: #000000;
+  border-style: solid;
+  color: white;
+  display: inline-block;
+  font-size: 16px;
+  padding: 15px;
+  transition-duration: 0.5s;
+  width: 4%;
+}
+
+.navbar a smallbutton:hover {
+  padding: 18px;
+  cursor: pointer;
+  transition-duration: 0.5s;
+}
+
+.navbar a smallbutton img {
+  width: 22px;
+  height: 22px;
+  transition-duration: 0.5s;
+}
+
+.navbar a smallbutton:hover img {
+  width: 30px;
+  height: 30px;
+  transition-duration: 0.5s;
+}
+
 .navbar a button {
   background-color: #04AA6D;
   border-radius: 15px;
-  border: none;
-  box-shadow: 0 9px #999;
+  border: 4px;
+  border-color: #000000;
+  border-style: solid;
   color: white;
   display: inline-block;
   font-family: customAngryBirds;
@@ -40,41 +76,44 @@
   overflow: hidden;
   padding: 15px 25px;
   text-align: center;
-  transition-duration: 3s;
-  width: 24.5%;
+  transition-duration: 0.5s;
+  width: 15%;
 }
 
 .navbar a button:active {
-  background-color: #3e8e41;
-  box-shadow: 0 5px #666;
-  transform: translateY(4px);
+  background-color: #333333;
 }
 
 .navbar a button:hover {
-  padding: 13px;
+  padding: 18px;
   cursor: pointer;
-  transition-duration: 1s;
-  font-size:19px;
+  transition-duration: 0.5s;
+  font-size:20px;
 }
+
+
+
 
 body {
   font-family: Tahoma;
   color: white;
   text-align: center;
   animation-name: background;
-  animation-duration: 25s;
+  animation-duration: 30s;
   animation-iteration-count: infinite;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  min-height:100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
 }
+
+
+
 
 @keyframes rotate {
     from{ transform: rotate(-360deg);}
     to{ transform: rotate(360deg);}
 }
-
 
 @keyframes background {
   0%   {background-color: red}
@@ -98,73 +137,4 @@ body {
   75%  {left:0px; top:110px;}
   87.5% {left:30px; top:190px;}
   100% {left:110px; top:220px;}
-}
-
-.menu{
-  position:relative;
-  width:280px;
-  height:280px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.menu .toggle{
-  position:relative;
-  height:60px;
-  width:60px;
-  background:#fff;
-  border-radius:50%;
-  box-shadow:0 3px 4px rgba(0,0,0,0.15);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#333;
-  font-size:2rem;
-  cursor:pointer;
-  transition:1.25s;
-  z-index:5;
-}
-
-.menu.active .toggle{
-  transform:rotate(360deg);
-  box-shadow: 0 6px 8px rgba(0,0,0,0.15),
-    0 0 0 2px #333,
-    0 0 0 8px #fff;
-}
-
-.menu li{
-  position:absolute;
-  left:0;
-  list-style:none;
-  transition:0.5s;
-  transform:rotate(calc(360deg/10 * var(--i)));
-  transform-origin:140px;
-  scale:0;
-  transition-delay: calc(0.05s * var(--i));
-}
-.menu.active li{
-  scale:1;
-}
-.menu li a{
-  position:relative;
-  display:flex;
-  transform:rotate(calc(360deg/-10 * var(--i)));
-  width:60px;
-  height:60px;
-  align-items:center;
-  justify-content:center;
-  border-radius:50%;
-  font-size:1.75rem;
-  color:var(--clr);
-  box-shadow:0 3px 4px rgba(0,0,0,0.15);
-  transition:0.5s;
-}
-
-.menu li:hover a{
-  font-size:2.5rem;
-  width:65px;
-  height:65px;
-  box-shadow:0 0 0 2px var(--clr),
-    0 0 0 6px #fff;
 }

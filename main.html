@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>The JDII Website</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Brush Script MT', cursive;
+      background: #111827;
+      color: #f9fafb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 600px;
+      width: 100%;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 2rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 16px;
+      margin-top: 10px;
+    }
+
+    .icon-card {
+      background: #1f2937;
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #f9fafb;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    .icon-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+      background: #111827;
+    }
+
+    .icon-circle {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: #374151;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+	  overflow: hidden;
+    }
+	
+	.icon-circle img {
+	  width: 100%;
+	  height: 100%;
+	  object-fit: cover;
+	}
+
+    .icon-label {
+      font-size: 0.7rem;
+      margin-top: 4px;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Reviewing Apps</h1>
+    <div class="grid">
+      <a class="icon-card" href="https://letterboxd.com/jdii" target="_blank" rel="noopener noreferrer">
+        <div class="icon-circle"><img src="letterboxd.jpg"></div>
+        <div class="icon-label">Letterboxd</div>
+      </a>
+
+      <a class="icon-card" href="https://www.backloggd.com/u/JohnnyDabb2" target="_blank" rel="noopener noreferrer">
+        <div class="icon-circle"><img src="backloggd.jpg"></div>
+        <div class="icon-label">Backloggd</div>
+      </a>
+
+      <a class="icon-card" href="https://www.serializd.com/user/jdii/profile" target="_blank" rel="noopener noreferrer">
+        <div class="icon-circle"><img src="serializd.jpg"></div>
+        <div class="icon-label">Serializd</div>
+      </a>
+
+      <a class="icon-card" href="https://www.goodreads.com/user/show/132377891-jdii" target="_blank" rel="noopener noreferrer">
+        <div class="icon-circle"><img src="goodreads.jpg"></div>
+        <div class="icon-label">Goodreads</div>
+      </a>
+
+      <a class="icon-card" href="https://www.albumoftheyear.org/user/jdii" target="_blank" rel="noopener noreferrer">
+        <div class="icon-circle"><img src="aoty.jpg"></div>
+        <div class="icon-label">Album of the Year</div>
+      </a>
+
+      <a class="icon-card" href="https://boardgamegeek.com/profile/jdii" target="_blank" rel="noopener noreferrer">
+        <div class="icon-circle"><img src="bgg.jpg"></div>
+        <div class="icon-label">BoardGameGeek</div>
+      </a>
+	  
+	  <a class="icon-card" href="https://www.favoree.io/user/682f4b503b73d2006139ad88" target="_blank" rel="noopener noreferrer">
+        <div class="icon-circle"><img src="favoree.jpg"></div>
+        <div class="icon-label">Favoree</div>
+      </a>
+	  
+	  <a class="icon-card" href="https://eaten.io/u/jdii" target="_blank" rel="noopener noreferrer">
+        <div class="icon-circle"><img src="eaten.jpg"></div>
+        <div class="icon-label">Eaten</div>
+
+      <a class="icon-card" href="https://www.imdb.com/user/ur200653653" target="_blank" rel="noopener noreferrer">
+        <div class="icon-circle"><img src="imdb.jpg"></div>
+        <div class="icon-label">IMDb</div>
+      </a>
+
+      <a class="icon-card" href="#" target="_blank" rel="noopener noreferrer">
+        <div class="icon-circle"><img src=".jpg"></div>
+        <div class="icon-label"></div>
+      </a>
+	  
+	  <a class="icon-card" href="#" target="_blank" rel="noopener noreferrer">
+        <div class="icon-circle"><img src=".jpg"></div>
+        <div class="icon-label"></div>
+      </a>
+	  
+	  <a class="icon-card" href="#" target="_blank" rel="noopener noreferrer">
+        <div class="icon-circle"><img src=".jpg"></div>
+        <div class="icon-label"></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="container">
+    <h1>Other Sites</h1>
+    <div class="grid">
+      <a class="icon-card" href="https://www.youtube.com/@johnnydabb2" target="_blank" rel="noopener noreferrer">
+        <div class="icon-circle"><img src="youtube.jpg"></div>
+        <div class="icon-label">YouTube</div>
+      </a>
+
+      <a class="icon-card" href="https://bsky.app/profile/johnnydabb2.bsky.social" target="_blank" rel="noopener noreferrer">
+        <div class="icon-circle"><img src="bluesky.jpg"></div>
+        <div class="icon-label">Bluesky</div>
+      </a>
+
+      <a class="icon-card" href="https://www.reddit.com/user/johnnydabb_two" target="_blank" rel="noopener noreferrer">
+        <div class="icon-circle"><img src="reddit.jpg"></div>
+        <div class="icon-label">Reddit</div>
+      </a>
+
+      <a class="icon-card" href="#" target="_blank" rel="noopener noreferrer">
+        <div class="icon-circle"><img src="discord.jpg"></div>
+        <div class="icon-label">Discord</div>
+      </a>
+
+      <a class="icon-card" href="https://retroachievements.org/user/jdii" target="_blank" rel="noopener noreferrer">
+        <div class="icon-circle"><img src="ra.jpg"></div>
+        <div class="icon-label">RetroAchievements</div>
+      </a>
+
+      <a class="icon-card" href="https://steamcommunity.com/id/JohnnyDabb2" target="_blank" rel="noopener noreferrer">
+        <div class="icon-circle"><img src="steam.jpg"></div>
+        <div class="icon-label">Steam</div>
+      </a>
+	  
+	  <a class="icon-card" href="https://github.com/JohnnyDabb2" target="_blank" rel="noopener noreferrer">
+        <div class="icon-circle"><img src="github.jpg"></div>
+        <div class="icon-label">GitHub</div>
+      </a>
+	  
+	  <a class="icon-card" href="#" target="_blank" rel="noopener noreferrer">
+        <div class="icon-circle"><img src=".jpg"></div>
+        <div class="icon-label"></div>
+
+      <a class="icon-card" href="#" target="_blank" rel="noopener noreferrer">
+        <div class="icon-circle"><img src=".jpg"></div>
+        <div class="icon-label"></div>
+      </a>
+
+      <a class="icon-card" href="#" target="_blank" rel="noopener noreferrer">
+        <div class="icon-circle"><img src=".jpg"></div>
+        <div class="icon-label"></div>
+      </a>
+	  
+	  <a class="icon-card" href="#" target="_blank" rel="noopener noreferrer">
+        <div class="icon-circle"><img src=".jpg"></div>
+        <div class="icon-label"></div>
+      </a>
+	  
+	  <a class="icon-card" href="#" target="_blank" rel="noopener noreferrer">
+        <div class="icon-circle"><img src=".jpg"></div>
+        <div class="icon-label"></div>
+      </a>
+    </div>
+  </div>
+</body>
+</html>

@@ -5,10 +5,492 @@
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <title>The JDII Website</title>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<style>
+/* ============================================================
+   THE JDII SYSTEM  —  orbital homepage
+   Everything below is self-contained and deliberately overrides
+   style.css for this page only.
+   ============================================================ */
+
+:root{
+    --space-0:#02040e;
+    --space-1:#061024;
+    --space-2:#0b1c3d;
+    --ink:#e8eeff;
+    --ink-dim:#93a4cc;
+    --accent:#6ea8ff;
+    --accent-2:#b98cff;
+    --line:rgba(140,175,255,.20);
+    --card:rgba(10,20,44,.82);
+}
+
+*{ box-sizing:border-box; }
+
+html{ scroll-behavior:smooth; overflow-x:clip; }
+
+body{
+    margin:0 !important;
+    padding:0 !important;
+    min-height:100vh;
+    color:var(--ink);
+    font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    background:
+        radial-gradient(1100px 700px at 15% -5%,  rgba(90,60,190,.30), transparent 60%),
+        radial-gradient(900px 650px at 88% 12%,  rgba(0,140,190,.22), transparent 62%),
+        radial-gradient(1200px 800px at 50% 108%, rgba(120,40,160,.24), transparent 65%),
+        linear-gradient(180deg,#040b1e 0%, #061029 45%, #030716 100%) !important;
+    background-attachment:fixed !important;
+    /* NB: no overflow-x here on purpose. `overflow-x:hidden` on <body> forces
+       overflow-y to become `auto`, which is what produced the second
+       scrollbar. html{overflow-x:clip} above does the job without that. */
+}
+
+/* the animated star canvas sits behind everything */
+#starfield{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    z-index:0;
+    pointer-events:none;
+}
+
+/* ---------- nav ---------- */
+body > nav{
+    position:sticky;
+    top:0;
+    z-index:60;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    flex-wrap:wrap;
+    padding:14px clamp(16px,4vw,44px);
+    background:rgba(4,10,26,.72);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+}
+body > nav .logo{
+    font-family:'Orbitron',sans-serif;
+    font-weight:700;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-size:clamp(.8rem,2.2vw,1rem);
+    background:linear-gradient(90deg,#fff,#8fb8ff 60%,#c9a6ff);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+body > nav ul{
+    display:flex;
+    gap:6px;
+    list-style:none;
+    margin:0;
+    padding:0;
+}
+body > nav ul li a{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 14px;
+    border-radius:999px;
+    color:var(--ink-dim);
+    text-decoration:none;
+    font-size:.88rem;
+    font-weight:500;
+    border:1px solid transparent;
+    transition:color .2s, background .2s, border-color .2s;
+}
+body > nav ul li a:hover{
+    color:#fff;
+    background:rgba(110,168,255,.12);
+    border-color:var(--line);
+}
+
+/* ---------- page frame ---------- */
+main.page{
+    position:relative;
+    z-index:1;
+    max-width:1200px;
+    margin:0 auto;
+    padding:0 clamp(16px,4vw,40px) 40px;
+}
+
+.hero{
+    text-align:center;
+    padding:clamp(38px,7vw,78px) 0 4px;
+}
+.hero h1{
+    font-family:'Orbitron',sans-serif;
+    font-weight:700;
+    font-size:clamp(1.9rem,6vw,3.4rem);
+    letter-spacing:.06em;
+    margin:0 0 14px;
+    line-height:1.1;
+    background:linear-gradient(120deg,#ffffff 10%,#9ec2ff 45%,#cfa8ff 85%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    text-shadow:0 0 60px rgba(120,160,255,.35);
+}
+.hero p{
+    margin:0 auto;
+    max-width:52ch;
+    color:var(--ink-dim);
+    font-size:clamp(.92rem,2.2vw,1.05rem);
+    line-height:1.65;
+}
+.hint{
+    margin-top:22px !important;
+    display:inline-flex;
+    align-items:center;
+    gap:9px;
+    padding:8px 16px;
+    border:1px solid var(--line);
+    border-radius:999px;
+    background:rgba(10,22,50,.55);
+    font-size:.8rem;
+    color:var(--ink-dim);
+    letter-spacing:.03em;
+}
+.hint i{ color:var(--accent); }
+
+/* ---------- a system ----------
+   Each system fills the screen and sits centred in it, so scrolling lands
+   one solar system at a time. To go back to a normal stacked page, delete
+   the min-height / display / justify-content lines below. */
+.system{
+    height:100vh;
+    /* the nav floats over the top of the viewport, so hold that space back
+       and centre within what's actually visible (--nav-h is measured in JS) */
+    padding-top:var(--nav-h,57px);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:clamp(10px,2vh,26px);
+    text-align:center;
+    overflow:clip;
+}
+.system-title{
+    font-family:'Orbitron',sans-serif;
+    font-weight:500;
+    font-size:clamp(.72rem,2vw,.9rem);
+    letter-spacing:.3em;
+    text-transform:uppercase;
+    color:#a9c2f5;
+    margin:0;
+}
+.system-sub{
+    margin:0;
+    font-size:.82rem;
+    color:rgba(147,164,204,.75);
+}
+
+/* ONE number drives the whole system. It is the largest square that still
+   leaves room for the heading above it, so a system always fits its screen
+   and is therefore always properly centred. Raise the 860px cap if you want
+   it even bigger on very tall displays. */
+.stage{
+    --stage:min(860px, calc(100vh - var(--nav-h,57px) - 120px), calc(100vw - 80px));
+    position:relative;
+    width:var(--stage);
+    height:var(--stage);
+    flex:none;
+}
+
+/* ---------- the star ---------- */
+.star{
+    position:absolute;
+    top:50%;
+    left:50%;
+    width:22%;
+    aspect-ratio:1/1;
+    margin:-11% 0 0 -11%;
+    z-index:5;
+}
+.star .corona{
+    position:absolute;
+    inset:-115%;
+    border-radius:50%;
+    background:radial-gradient(circle,
+        rgba(255,214,150,.55) 0%,
+        rgba(255,160,90,.28) 22%,
+        rgba(150,120,255,.16) 45%,
+        transparent 70%);
+    animation:pulse 6s ease-in-out infinite;
+    pointer-events:none;
+}
+.star .flare{
+    position:absolute;
+    inset:-38%;
+    border-radius:50%;
+    background:conic-gradient(from 0deg,
+        rgba(255,205,140,0) 0deg,
+        rgba(255,205,140,.35) 40deg,
+        rgba(255,205,140,0) 90deg,
+        rgba(180,150,255,0) 180deg,
+        rgba(180,150,255,.30) 230deg,
+        rgba(180,150,255,0) 300deg);
+    filter:blur(7px);
+    animation:orbit-spin 26s linear infinite;
+    pointer-events:none;
+}
+.star .core{
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    overflow:hidden;
+    border:2px solid rgba(255,224,180,.65);
+    box-shadow:
+        0 0 0 6px rgba(255,190,110,.10),
+        0 0 40px 6px rgba(255,178,90,.45),
+        inset 0 0 26px rgba(255,150,60,.25);
+    background:radial-gradient(circle at 35% 30%,#ffd9a1,#ff9b46 55%,#a4460f);
+}
+.star .core img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+.star .core .fallback{
+    display:none;
+    width:100%;
+    height:100%;
+    align-items:center;
+    justify-content:center;
+    font-family:'Orbitron',sans-serif;
+    font-weight:700;
+    font-size:clamp(1rem,3.4vmin,1.8rem);
+    color:#3a1a02;
+    letter-spacing:.05em;
+}
+.star.no-img .core img{ display:none; }
+.star.no-img .core .fallback{ display:flex; }
+
+@keyframes pulse{
+    0%,100%{ transform:scale(1);   opacity:.85; }
+    50%    { transform:scale(1.09); opacity:1; }
+}
+
+/* ---------- orbits ---------- */
+@keyframes orbit-spin{
+    from{ transform:rotate(0deg); }
+    to  { transform:rotate(360deg); }
+}
+
+/* Each planet rides its own orbit: swing out to the radius, then counter-turn
+   by the same angle so the icon and label stay upright. Nothing big ever
+   rotates — that is what stopped the page height (and the scrollbar) pulsing,
+   because a rotating square's bounding box grows and shrinks as it turns. */
+@keyframes orbit-path{
+    from{ transform:translate(-50%,-50%) rotate(0deg)   translateY(calc(var(--r) * -1)) rotate(0deg); }
+    to  { transform:translate(-50%,-50%) rotate(360deg) translateY(calc(var(--r) * -1)) rotate(-360deg); }
+}
+
+/* the faint ring line — static, purely decorative */
+.ring{
+    position:absolute;
+    top:50%;
+    left:50%;
+    width:var(--d);
+    height:var(--d);
+    margin-left:calc(var(--d) / -2);
+    margin-top:calc(var(--d) / -2);
+    border-radius:50%;
+    border:1px solid rgba(150,185,255,.24);
+    box-shadow:0 0 26px rgba(110,168,255,.07) inset;
+    pointer-events:none;
+}
+
+/* ---------- planets ---------- */
+.planet{
+    position:absolute;
+    top:50%;
+    left:50%;
+    width:var(--ps);
+    height:var(--ps);
+    text-decoration:none;
+    color:inherit;
+    outline:none;
+    animation:orbit-path var(--dur) linear infinite;
+    animation-delay:var(--delay,0s);
+    animation-direction:var(--dir,normal);
+}
+.planet:hover,
+.planet:focus-visible,
+.planet.active{ z-index:10; }
+
+.planet .body{
+    position:relative;
+    display:block;
+    width:100%;
+    height:100%;
+    border-radius:50%;
+    overflow:hidden;
+    background:#0d1a35;
+    border:1px solid rgba(160,195,255,.32);
+    box-shadow:
+        0 6px 22px rgba(0,0,0,.55),
+        0 0 0 5px rgba(110,168,255,.06);
+    transition:transform .28s cubic-bezier(.34,1.4,.64,1), box-shadow .28s, border-color .28s;
+}
+.planet .body img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+.planet .body .fallback{
+    position:absolute;
+    inset:0;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    font-family:'Orbitron',sans-serif;
+    font-weight:700;
+    font-size:calc(var(--ps) * .38);
+    color:#dce8ff;
+    background:linear-gradient(150deg,#223c74,#121f42);
+}
+.planet.no-img .body img{ display:none; }
+.planet.no-img .body .fallback{ display:flex; }
+
+/* the little shine that makes a circle read as a sphere */
+.planet .body::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    background:
+        radial-gradient(circle at 30% 24%, rgba(255,255,255,.34), transparent 46%),
+        radial-gradient(circle at 76% 82%, rgba(0,10,40,.55), transparent 55%);
+    pointer-events:none;
+}
+.planet .name{
+    position:absolute;
+    top:calc(100% + 7px);
+    left:50%;
+    transform:translateX(-50%);
+    font-size:clamp(11px, calc(var(--stage) * .0185), 15px);
+    letter-spacing:.05em;
+    color:rgba(190,208,242,.72);
+    white-space:nowrap;
+    transition:color .25s, text-shadow .25s;
+    text-shadow:0 1px 6px rgba(0,0,0,.9);
+}
+.planet:hover .body,
+.planet:focus-visible .body,
+.planet.active .body{
+    transform:scale(1.22);
+    border-color:rgba(190,220,255,.95);
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.6),
+        0 0 0 5px rgba(110,168,255,.20),
+        0 0 34px 4px rgba(110,168,255,.55);
+}
+.planet:hover .name,
+.planet:focus-visible .name,
+.planet.active .name{
+    color:#fff;
+    text-shadow:0 0 14px rgba(120,170,255,.9);
+}
+
+/* Freeze ONLY the ring the hovered planet belongs to, so the other rings
+   (and the star) carry on turning. */
+.stage.pause-0 .planet.ring-0,
+.stage.pause-1 .planet.ring-1,
+.stage.pause-2 .planet.ring-2{
+    animation-play-state:paused;
+}
+
+.planet-source{ display:none; }
+
+/* ---------- the popup ---------- */
+#popup{
+    position:fixed;
+    z-index:200;
+    width:min(288px,calc(100vw - 28px));
+    padding:15px 17px 14px;
+    border-radius:14px;
+    background:var(--card);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    border:1px solid rgba(150,185,255,.30);
+    box-shadow:0 18px 50px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.03) inset;
+    opacity:0;
+    transform:translateY(6px) scale(.97);
+    transition:opacity .16s ease, transform .16s ease;
+    pointer-events:none;
+    text-align:left;
+}
+#popup.show{
+    opacity:1;
+    transform:translateY(0) scale(1);
+}
+#popup .pop-head{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:9px;
+}
+#popup .pop-dot{
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 12px var(--accent);
+    flex:none;
+}
+#popup .pop-name{
+    font-family:'Orbitron',sans-serif;
+    font-weight:500;
+    font-size:.85rem;
+    letter-spacing:.09em;
+    text-transform:uppercase;
+    color:#fff;
+}
+#popup .pop-blurb{
+    margin:0 0 11px;
+    font-size:.855rem;
+    line-height:1.55;
+    color:#c3d2f2;
+}
+#popup .pop-link{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    font-size:.74rem;
+    letter-spacing:.05em;
+    color:var(--accent);
+    border-top:1px solid rgba(150,185,255,.16);
+    padding-top:9px;
+}
+#popup .pop-link i{ font-size:.68rem; }
+
+/* ---------- responsive + motion ---------- */
+@media (max-width:560px){
+    .planet .name{ display:none; }
+    body > nav{ justify-content:center; }
+}
+
+@media (prefers-reduced-motion:reduce){
+    .star .flare,.star .corona{ animation:none !important; }
+    .planet{ animation-play-state:paused !important; }
+}
+</style>
 </head>
 <body>
+
+<canvas id="starfield" aria-hidden="true"></canvas>
 
 <nav>
     <div class="logo">The JDII Website</div>
@@ -21,146 +503,491 @@
 </nav>
 
 <main class="page">
-<div class="container">
-    <h1>Reviewing Apps</h1>
-    <div class="grid">
-        <a class="icon-card" href="https://letterboxd.com/jdii" target="_blank" rel="noopener noreferrer">
-            <div class="icon-circle"><img src="icons/letterboxd.jpg"></div>
-            <div class="icon-label">Letterboxd</div>
-        </a>
 
-        <a class="icon-card" href="https://www.backloggd.com/u/JohnnyDabb2" target="_blank"
-            rel="noopener noreferrer">
-            <div class="icon-circle"><img src="icons/backloggd.jpg"></div>
-            <div class="icon-label">Backloggd</div>
-        </a>
+    <header class="hero">
+        <h1>The JDII Space</h1>
+        <p></p>
+        <p class="hint"><i class="fa-solid fa-hand-pointer"></i> <span id="hintText">Hover over a planet to see what it's for</span></p>
+    </header>
 
-        <a class="icon-card" href="https://www.serializd.com/user/jdii/profile" target="_blank"
-            rel="noopener noreferrer">
-            <div class="icon-circle"><img src="icons/serializd.jpg"></div>
-            <div class="icon-label">Serializd</div>
-        </a>
+    <!-- ==================== SYSTEM 1 ==================== -->
+    <section class="system">
+        <h2 class="system-title">Reviewing Apps</h2>
+        <p class="system-sub">Where I keep score</p>
 
-        <a class="icon-card" href="https://www.goodreads.com/user/show/132377891-jdii" target="_blank"
-            rel="noopener noreferrer">
-            <div class="icon-circle"><img src="icons/goodreads.jpg"></div>
-            <div class="icon-label">Goodreads</div>
-        </a>
+        <div class="stage" data-rings="4,6" data-durations="58,88">
+            <div class="star">
+                <div class="corona"></div>
+                <div class="flare"></div>
+                <div class="core">
+                    <img src="favicon.png" alt="JDII">
+                    <div class="fallback">JD</div>
+                </div>
+            </div>
 
-        <a class="icon-card" href="https://www.albumoftheyear.org/user/jdii" target="_blank"
-            rel="noopener noreferrer">
-            <div class="icon-circle"><img src="icons/aoty.jpg"></div>
-            <div class="icon-label">Album of the Year</div>
-        </a>
+            <!-- Planets live here in the source; the script places them in orbit.
+                 To add one: copy a line, change the href, name, icon and blurb. -->
+            <div class="planet-source">
+                <a href="https://letterboxd.com/jdii" target="_blank" rel="noopener noreferrer"
+                   data-name="Letterboxd" data-icon="icons/letterboxd.jpg"
+                   data-blurb="All of my reviews and ratings for movies and shorties."></a>
 
-        <a class="icon-card" href="https://boardgamegeek.com/profile/jdii" target="_blank"
-            rel="noopener noreferrer">
-            <div class="icon-circle"><img src="icons/bgg.jpg"></div>
-            <div class="icon-label">BoardGameGeek</div>
-        </a>
+                <a href="https://www.backloggd.com/u/JohnnyDabb2" target="_blank" rel="noopener noreferrer"
+                   data-name="Backloggd" data-icon="icons/backloggd.jpg"
+                   data-blurb="All of my reviews and ratings for video games."></a>
 
-        <a class="icon-card" href="https://www.favoree.io/user/682f4b503b73d2006139ad88" target="_blank"
-            rel="noopener noreferrer">
-            <div class="icon-circle"><img src="icons/favoree.jpg"></div>
-            <div class="icon-label">Favoree</div>
-        </a>
+                <a href="https://www.serializd.com/user/jdii/profile" target="_blank" rel="noopener noreferrer"
+                   data-name="Serializd" data-icon="icons/serializd.jpg"
+                   data-blurb="All of my reviews and ratings for shows."></a>
 
-        <a class="icon-card" href="https://eaten.io/u/jdii" target="_blank" rel="noopener noreferrer">
-            <div class="icon-circle"><img src="icons/eaten.jpg"></div>
-            <div class="icon-label">Eaten</div>
+                <a href="https://www.goodreads.com/user/show/132377891-jdii" target="_blank" rel="noopener noreferrer"
+                   data-name="Goodreads" data-icon="icons/goodreads.jpg"
+                   data-blurb="All of my reviews and ratings for books."></a>
 
-            <a class="icon-card" href="https://www.imdb.com/user/ur200653653" target="_blank"
-                rel="noopener noreferrer">
-                <div class="icon-circle"><img src="icons/imdb.jpg"></div>
-                <div class="icon-label">IMDb</div>
-            </a>
+                <a href="https://www.albumoftheyear.org/user/jdii" target="_blank" rel="noopener noreferrer"
+                   data-name="Album of the Year" data-icon="icons/aoty.jpg"
+                   data-blurb="All of my reviews and ratings for albums and singles."></a>
 
-            <a class="icon-card" href="#" target="_blank" rel="noopener noreferrer">
-                <div class="icon-circle"><img src="icons/logride.jpg"></div>
-                <div class="icon-label-ofo">LogRide</div>
-            </a>
+                <a href="https://boardgamegeek.com/profile/jdii" target="_blank" rel="noopener noreferrer"
+                   data-name="BoardGameGeek" data-icon="icons/bgg.jpg"
+                   data-blurb="All of my reviews and ratings for board games."></a>
 
-            <a class="icon-card" href="#" target="_blank" rel="noopener noreferrer">
-                <div class="icon-circle"><img src=".jpg"></div>
-                <div class="icon-label"></div>
-            </a>
+                <a href="https://www.favoree.io/user/682f4b503b73d2006139ad88" target="_blank" rel="noopener noreferrer"
+                   data-name="Favoree" data-icon="icons/favoree.jpg"
+                   data-blurb="All of my reviews and ratings for YouTube channels."></a>
 
-            <a class="icon-card" href="#" target="_blank" rel="noopener noreferrer">
-                <div class="icon-circle"><img src=".jpg"></div>
-                <div class="icon-label"></div>
-            </a>
-    </div>
-</div>
+                <a href="https://eaten.io/u/jdii" target="_blank" rel="noopener noreferrer"
+                   data-name="Eaten" data-icon="icons/eaten.jpg"
+                   data-blurb="All of my reviews and ratings for food and drink items."></a>
 
-<div class="container">
-    <h1>Other Sites</h1>
-    <div class="grid">
-        <a class="icon-card" href="https://www.youtube.com/@johnnydabb2" target="_blank" rel="noopener noreferrer">
-            <div class="icon-circle"><img src="icons/youtube.jpg"></div>
-            <div class="icon-label">YouTube</div>
-        </a>
+                <a href="https://www.imdb.com/user/ur200653653" target="_blank" rel="noopener noreferrer"
+                   data-name="IMDb" data-icon="icons/imdb.jpg"
+                   data-blurb="All of my reviews and ratings for content that got taken off of Letterboxd and/or Serializd."></a>
 
-        <a class="icon-card" href="https://bsky.app/profile/johnnydabb2.bsky.social" target="_blank"
-            rel="noopener noreferrer">
-            <div class="icon-circle"><img src="icons/bluesky.jpg"></div>
-            <div class="icon-label">Bluesky</div>
-        </a>
+                <a href="#" target="_blank" rel="noopener noreferrer"
+                   data-name="LogRide" data-icon="icons/logride.jpg"
+                   data-blurb="All of my reviews and ratings for roller coasters and park attractions. Link coming soon."></a>
+            </div>
+        </div>
+    </section>
 
-        <a class="icon-card" href="#" target="_blank" rel="noopener noreferrer">
-            <div class="icon-circle"><img src="icons/discord.jpg"></div>
-            <div class="icon-label-ofo">Discord</div>
-        </a>
+    <!-- ==================== SYSTEM 2 ==================== -->
+    <section class="system">
+        <h2 class="system-title">Other Sites</h2>
+        <p class="system-sub">Where else I turn up</p>
 
-        <a class="icon-card" href="https://retroachievements.org/user/jdii" target="_blank"
-            rel="noopener noreferrer">
-            <div class="icon-circle"><img src="icons/retroachievements.jpg"></div>
-            <div class="icon-label">RetroAchievements</div>
-        </a>
+        <div class="stage" data-rings="5,6" data-durations="64,96">
+            <div class="star">
+                <div class="corona"></div>
+                <div class="flare"></div>
+                <div class="core">
+                    <img src="favicon.png" alt="JDII">
+                    <div class="fallback">JD</div>
+                </div>
+            </div>
 
-        <a class="icon-card" href="https://steamcommunity.com/id/JohnnyDabb2" target="_blank"
-            rel="noopener noreferrer">
-            <div class="icon-circle"><img src="icons/steam.jpg"></div>
-            <div class="icon-label">Steam</div>
-        </a>
+            <div class="planet-source">
+                <a href="https://www.youtube.com/@johnnydabb2" target="_blank" rel="noopener noreferrer"
+                   data-name="YouTube" data-icon="icons/youtube.jpg"
+                   data-blurb=""></a>
 
-        <a class="icon-card" href="https://github.com/JohnnyDabb2" target="_blank" rel="noopener noreferrer">
-            <div class="icon-circle"><img src="icons/github.jpg"></div>
-            <div class="icon-label">GitHub</div>
-        </a>
+                <a href="https://bsky.app/profile/johnnydabb2.bsky.social" target="_blank" rel="noopener noreferrer"
+                   data-name="Bluesky" data-icon="icons/bluesky.jpg"
+                   data-blurb=""></a>
 
-        <a class="icon-card" href="https://www.deviantart.com/johnnydabb2" target="_blank"
-            rel="noopener noreferrer">
-            <div class="icon-circle"><img src="icons/deviantart.jpg"></div>
-            <div class="icon-label">DeviantArt</div>
+                <a href="#" target="_blank" rel="noopener noreferrer"
+                   data-name="Discord" data-icon="icons/discord.jpg"
+                   data-blurb="Find me on Discord. Link coming soon."></a>
 
-            <a class="icon-card" href="https://linktr.ee/jdii" target="_blank" rel="noopener noreferrer">
-                <div class="icon-circle"><img src="icons/linktree.jpg"></div>
-                <div class="icon-label">Linktree</div>
-            </a>
+                <a href="https://retroachievements.org/user/jdii" target="_blank" rel="noopener noreferrer"
+                   data-name="RetroAchievements" data-icon="icons/retroachievements.jpg"
+                   data-blurb=""></a>
 
-            <a class="icon-card" href="https://www.igdb.com/users/johnnydabb-two" target="_blank"
-                rel="noopener noreferrer">
-                <div class="icon-circle"><img src="icons/igdb.jpg"></div>
-                <div class="icon-label">IGDB</div>
-            </a>
+                <a href="https://steamcommunity.com/id/JohnnyDabb2" target="_blank" rel="noopener noreferrer"
+                   data-name="Steam" data-icon="icons/steam.jpg"
+                   data-blurb=""></a>
 
-            <a class="icon-card" href="https://characterhub.com/profile/jdii" target="_blank"
-                rel="noopener noreferrer">
-                <div class="icon-circle"><img src="icons/characterhub.jpg"></div>
-                <div class="icon-label">CharacterHub</div>
-            </a>
+                <a href="https://github.com/JohnnyDabb2" target="_blank" rel="noopener noreferrer"
+                   data-name="GitHub" data-icon="icons/github.jpg"
+                   data-blurb="Code I'm writing, including this website."></a>
 
-            <a class="icon-card" href="https://x.com/johnnydabb2" target="_blank" rel="noopener noreferrer">
-                <div class="icon-circle"><img src="icons/twitter.jpg"></div>
-                <div class="icon-label">Twitter</div>
-            </a>
+                <a href="https://www.deviantart.com/johnnydabb2" target="_blank" rel="noopener noreferrer"
+                   data-name="DeviantArt" data-icon="icons/deviantart.jpg"
+                   data-blurb="Art I've drawn and posted over the years."></a>
 
-            <a class="icon-card" href="https://www.instagram.com/johnnydabb_2" target="_blank" rel="noopener noreferrer">
-                <div class="icon-circle"><img src="icons/instagram.jpg"></div>
-                <div class="icon-label">Instagram</div>
-            </a>
-    </div>
-</div>
+                <a href="https://linktr.ee/jdii" target="_blank" rel="noopener noreferrer"
+                   data-name="Linktree" data-icon="icons/linktree.jpg"
+                   data-blurb="Just here so nobody else takes the URL."></a>
+
+                <a href="https://www.igdb.com/users/johnnydabb-two" target="_blank" rel="noopener noreferrer"
+                   data-name="IGDB" data-icon="icons/igdb.jpg"
+                   data-blurb=""></a>
+
+                <a href="https://x.com/johnnydabb2" target="_blank" rel="noopener noreferrer"
+                   data-name="Twitter" data-icon="icons/twitter.jpg"
+                   data-blurb=""></a>
+
+                <a href="https://www.instagram.com/johnnydabb_2" target="_blank" rel="noopener noreferrer"
+                   data-name="Instagram" data-icon="icons/instagram.jpg"
+                   data-blurb=""></a>
+            </div>
+        </div>
+    </section>
+
 </main>
+
+<!-- the hover card -->
+<div id="popup" role="tooltip" aria-hidden="true">
+    <div class="pop-head">
+        <span class="pop-dot"></span>
+        <span class="pop-name"></span>
+    </div>
+    <p class="pop-blurb"></p>
+    <div class="pop-link"><i class="fa-solid fa-arrow-up-right-from-square"></i><span></span></div>
+</div>
+
+<script>
+(function () {
+    'use strict';
+
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var isTouch = window.matchMedia('(hover: none)').matches;
+
+    /* measure the sticky nav so every system can centre below it */
+    (function navHeight() {
+        var nav = document.querySelector('body > nav');
+        if (!nav) return;
+        var apply = function () {
+            document.documentElement.style.setProperty('--nav-h', nav.offsetHeight + 'px');
+        };
+        apply();
+        window.addEventListener('resize', apply);
+        if (window.ResizeObserver) new ResizeObserver(apply).observe(nav);
+    })();
+
+    /* =========================================================
+       1. STARFIELD
+       ========================================================= */
+    (function starfield() {
+        var canvas = document.getElementById('starfield');
+        var ctx = canvas.getContext('2d');
+        var stars = [], shooters = [], w = 0, h = 0, dpr = 1;
+
+        function resize() {
+            dpr = Math.min(window.devicePixelRatio || 1, 2);
+            w = canvas.clientWidth;
+            h = canvas.clientHeight;
+            canvas.width = Math.floor(w * dpr);
+            canvas.height = Math.floor(h * dpr);
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+            var count = Math.min(520, Math.round((w * h) / 2600));
+            stars = [];
+            for (var i = 0; i < count; i++) {
+                stars.push({
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    r: Math.random() * Math.random() * 1.5 + 0.25,
+                    a: Math.random() * 0.55 + 0.25,
+                    tw: Math.random() * 0.018 + 0.004,
+                    ph: Math.random() * Math.PI * 2,
+                    hue: Math.random() < 0.14
+                        ? (Math.random() < 0.5 ? '188,206,255' : '255,222,196')
+                        : '255,255,255'
+                });
+            }
+        }
+
+        function spawnShooter() {
+            var fromLeft = Math.random() < 0.5;
+            shooters.push({
+                x: fromLeft ? -60 : w + 60,
+                y: Math.random() * h * 0.55,
+                vx: (fromLeft ? 1 : -1) * (5.5 + Math.random() * 3.5),
+                vy: 2.1 + Math.random() * 1.6,
+                life: 1
+            });
+        }
+
+        var t = 0;
+        function frame() {
+            t++;
+            ctx.clearRect(0, 0, w, h);
+
+            for (var i = 0; i < stars.length; i++) {
+                var s = stars[i];
+                var alpha = s.a + Math.sin(t * s.tw + s.ph) * 0.28;
+                if (alpha < 0.04) alpha = 0.04;
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.r, 0, 6.2832);
+                ctx.fillStyle = 'rgba(' + s.hue + ',' + alpha.toFixed(3) + ')';
+                ctx.fill();
+                if (s.r > 1.05) {
+                    ctx.beginPath();
+                    ctx.arc(s.x, s.y, s.r * 3.4, 0, 6.2832);
+                    ctx.fillStyle = 'rgba(' + s.hue + ',' + (alpha * 0.10).toFixed(3) + ')';
+                    ctx.fill();
+                }
+            }
+
+            if (Math.random() < 0.0035 && shooters.length < 2) spawnShooter();
+
+            for (var j = shooters.length - 1; j >= 0; j--) {
+                var m = shooters[j];
+                m.x += m.vx;
+                m.y += m.vy;
+                m.life -= 0.008;
+                var len = 16;
+                var g = ctx.createLinearGradient(m.x, m.y, m.x - m.vx * len, m.y - m.vy * len);
+                g.addColorStop(0, 'rgba(255,255,255,' + Math.max(0, m.life * 0.9).toFixed(3) + ')');
+                g.addColorStop(1, 'rgba(255,255,255,0)');
+                ctx.strokeStyle = g;
+                ctx.lineWidth = 1.6;
+                ctx.beginPath();
+                ctx.moveTo(m.x, m.y);
+                ctx.lineTo(m.x - m.vx * len, m.y - m.vy * len);
+                ctx.stroke();
+                if (m.life <= 0 || m.x < -200 || m.x > w + 200 || m.y > h + 120) shooters.splice(j, 1);
+            }
+
+            raf = requestAnimationFrame(frame);
+        }
+
+        var raf = null;
+        function start() { if (raf === null) raf = requestAnimationFrame(frame); }
+        function stop() { if (raf !== null) { cancelAnimationFrame(raf); raf = null; } }
+
+        resize();
+        window.addEventListener('resize', function () {
+            resize();
+            if (reduce) drawStatic();
+        });
+
+        function drawStatic() {
+            ctx.clearRect(0, 0, w, h);
+            stars.forEach(function (s) {
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.r, 0, 6.2832);
+                ctx.fillStyle = 'rgba(' + s.hue + ',' + s.a.toFixed(3) + ')';
+                ctx.fill();
+            });
+        }
+
+        if (reduce) {
+            drawStatic();
+        } else {
+            start();
+            document.addEventListener('visibilitychange', function () {
+                document.hidden ? stop() : start();
+            });
+        }
+    })();
+
+    /* =========================================================
+       2. BUILD THE ORBITS
+       ========================================================= */
+    function initials(name) {
+        var parts = name.replace(/[^A-Za-z0-9 ]/g, '').split(/\s+/).filter(Boolean);
+        if (parts.length > 1) return (parts[0][0] + parts[1][0]).toUpperCase();
+        return name.slice(0, 2).toUpperCase();
+    }
+
+    function prettyHost(href) {
+        try {
+            var u = new URL(href, window.location.href);
+            if (!/^https?:$/.test(u.protocol)) return 'Link coming soon';
+            return u.hostname.replace(/^www\./, '');
+        } catch (e) {
+            return 'Link coming soon';
+        }
+    }
+
+    var planets = [];
+
+    document.querySelectorAll('.stage').forEach(function (stage) {
+        var source = stage.querySelector('.planet-source');
+        var items = Array.prototype.slice.call(source.children);
+        var ringSizes = stage.dataset.rings.split(',').map(Number);
+        var durations = stage.dataset.durations.split(',').map(Number);
+
+        // Ring geometry as a fraction of --stage, so everything scales with
+        // the one number set on .stage in the CSS above.
+        //   rad = orbit radius, size = planet diameter, min = never smaller than
+        var geom = [
+            { rad: 0.270, size: 0.112, min: 42 },
+            { rad: 0.440, size: 0.097, min: 36 },
+            { rad: 0.600, size: 0.088, min: 32 }
+        ];
+
+        var index = 0;
+        ringSizes.forEach(function (count, ri) {
+            var g = geom[ri];
+            var dur = durations[ri] || 70;
+            var forward = ri % 2 === 0;
+
+            var ring = document.createElement('div');
+            ring.className = 'ring';
+            ring.style.setProperty('--d', 'calc(var(--stage) * ' + (g.rad * 2) + ')');
+            stage.appendChild(ring);
+
+            // stagger the rings so planets don't line up in a spoke
+            var offset = ri * (180 / count);
+
+            for (var k = 0; k < count; k++) {
+                var src = items[index++];
+                if (!src) break;
+
+                var angle = (360 / count) * k + offset;
+
+                var name = src.dataset.name;
+                var a = document.createElement('a');
+                a.className = 'planet ring-' + ri;
+                a.href = src.getAttribute('href');
+                a.target = src.getAttribute('target') || '_blank';
+                a.rel = 'noopener noreferrer';
+                a.style.setProperty('--ps', 'max(' + g.min + 'px, calc(var(--stage) * ' + g.size + '))');
+                a.style.setProperty('--r', 'calc(var(--stage) * ' + g.rad + ')');
+                a.style.setProperty('--dur', dur + 's');
+                a.style.setProperty('--dir', forward ? 'normal' : 'reverse');
+                // a negative delay drops the planet straight into its position
+                a.style.setProperty('--delay', (-(angle / 360) * dur).toFixed(3) + 's');
+                a.dataset.name = name;
+                a.dataset.blurb = src.dataset.blurb || '';
+                a.setAttribute('aria-label', name + ' — ' + (src.dataset.blurb || ''));
+
+                var body = document.createElement('div');
+                body.className = 'body';
+
+                var img = document.createElement('img');
+                img.src = src.dataset.icon;
+                img.alt = '';
+                img.loading = 'lazy';
+                (function (anchor) {
+                    img.addEventListener('error', function () { anchor.classList.add('no-img'); });
+                })(a);
+
+                var fb = document.createElement('div');
+                fb.className = 'fallback';
+                fb.textContent = initials(name);
+
+                body.appendChild(img);
+                body.appendChild(fb);
+
+                var label = document.createElement('span');
+                label.className = 'name';
+                label.textContent = name;
+
+                a.appendChild(body);
+                a.appendChild(label);
+                stage.appendChild(a);
+
+                planets.push({ el: a, stage: stage, ring: ri });
+            }
+        });
+    });
+
+    // star image fallback
+    document.querySelectorAll('.star .core img').forEach(function (img) {
+        img.addEventListener('error', function () {
+            img.closest('.star').classList.add('no-img');
+        });
+        if (img.complete && img.naturalWidth === 0) {
+            img.closest('.star').classList.add('no-img');
+        }
+    });
+
+    /* =========================================================
+       3. POPUP
+       ========================================================= */
+    var popup = document.getElementById('popup');
+    var popName = popup.querySelector('.pop-name');
+    var popBlurb = popup.querySelector('.pop-blurb');
+    var popLink = popup.querySelector('.pop-link span');
+    var current = null;
+
+    function place(el) {
+        var r = el.getBoundingClientRect();
+        popup.style.left = '0px';
+        popup.style.top = '0px';
+        var pw = popup.offsetWidth;
+        var ph = popup.offsetHeight;
+        var gap = 14;
+
+        var left = r.left + r.width / 2 - pw / 2;
+        left = Math.max(12, Math.min(left, window.innerWidth - pw - 12));
+
+        var top = r.top - ph - gap;
+        if (top < 12) top = r.bottom + gap;
+        if (top + ph > window.innerHeight - 12) {
+            top = Math.max(12, window.innerHeight - ph - 12);
+        }
+
+        popup.style.left = Math.round(left) + 'px';
+        popup.style.top = Math.round(top) + 'px';
+    }
+
+    function show(entry) {
+        if (current && current.el !== entry.el) hide();
+        current = entry;
+        entry.stage.classList.add('pause-' + entry.ring);   // only this ring stops
+        entry.el.classList.add('active');
+        popName.textContent = entry.el.dataset.name;
+        popBlurb.textContent = entry.el.dataset.blurb;
+        // a planet with no blurb yet just shows its name and link
+        popBlurb.style.display = entry.el.dataset.blurb ? '' : 'none';
+        popLink.textContent = prettyHost(entry.el.getAttribute('href'));
+        popup.setAttribute('aria-hidden', 'false');
+        popup.classList.add('show');
+        place(entry.el);
+        // the planet keeps drifting for a frame or two before the pause lands
+        requestAnimationFrame(function () { if (current === entry) place(entry.el); });
+    }
+
+    function hide() {
+        if (!current) return;
+        current.stage.classList.remove('pause-' + current.ring);
+        current.el.classList.remove('active');
+        popup.classList.remove('show');
+        popup.setAttribute('aria-hidden', 'true');
+        current = null;
+    }
+
+    planets.forEach(function (entry) {
+        var el = entry.el;
+
+        el.addEventListener('pointerenter', function (e) {
+            if (e.pointerType === 'touch') return;
+            show(entry);
+        });
+        el.addEventListener('pointerleave', function (e) {
+            if (e.pointerType === 'touch') return;
+            hide();
+        });
+        el.addEventListener('focus', function () { show(entry); });
+        el.addEventListener('blur', function () { hide(); });
+
+        // touch: first tap opens the card, second tap follows the link
+        el.addEventListener('click', function (e) {
+            if (!isTouch) return;
+            if (current !== entry) {
+                e.preventDefault();
+                show(entry);
+            }
+        });
+    });
+
+    if (isTouch) {
+        document.getElementById('hintText').textContent = "Tap a planet to see what it's for";
+        document.addEventListener('click', function (e) {
+            if (current && !e.target.closest('.planet')) hide();
+        });
+    }
+
+    window.addEventListener('scroll', function () { if (current) place(current.el); }, { passive: true });
+    window.addEventListener('resize', hide);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') hide(); });
+})();
+</script>
+
 </body>
 </html>

@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<title>The JDAI Family — The JDII Website</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<style>
+:root{
+  --ink:#e8eeff; --dim:#93a4cc; --accent:#6ea8ff; --line:rgba(140,175,255,.20);
+  --card:rgba(10,20,44,.88); --warn:#ffb454;
+  --c1:#ffd08a; --c2:#8fb8ff; --c3:#b98cff; --c4:#8a94ad;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;overflow-x:clip}
+body{
+  margin:0!important;padding:0!important;min-height:100vh;color:var(--ink);
+  font-family:'Inter',system-ui,sans-serif;
+  background:
+    radial-gradient(1100px 700px at 15% -5%,rgba(90,60,190,.30),transparent 60%),
+    radial-gradient(900px 650px at 88% 12%,rgba(0,140,190,.22),transparent 62%),
+    radial-gradient(1200px 800px at 50% 108%,rgba(120,40,160,.24),transparent 65%),
+    linear-gradient(180deg,#040b1e,#061029 45%,#030716)!important;
+  background-attachment:fixed!important;
+}
+#starfield{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
+body>nav{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;
+  padding:14px clamp(16px,4vw,44px);background:rgba(4,10,26,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+body>nav .logo{font-family:'Orbitron',sans-serif;font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:clamp(.8rem,2.2vw,1rem);
+  background:linear-gradient(90deg,#fff,#8fb8ff 60%,#c9a6ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+body>nav ul{display:flex;gap:6px;list-style:none;margin:0;padding:0}
+body>nav ul li a{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;color:var(--dim);text-decoration:none;font-size:.88rem;font-weight:500;border:1px solid transparent;transition:.2s}
+body>nav ul li a:hover{color:#fff;background:rgba(110,168,255,.12);border-color:var(--line)}
+
+main.page{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:0 clamp(16px,4vw,40px) 60px}
+.hero{text-align:center;padding:clamp(30px,5vw,56px) 0 0}
+.hero h1{font-family:'Orbitron',sans-serif;font-weight:700;font-size:clamp(1.9rem,6vw,3.2rem);letter-spacing:.06em;margin:0 0 12px;line-height:1.1;
+  background:linear-gradient(120deg,#fff 10%,#9ec2ff 45%,#cfa8ff 85%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{margin:0 auto;max-width:60ch;color:var(--dim);font-size:clamp(.92rem,2.2vw,1.05rem);line-height:1.65}
+.hint{margin-top:18px!important;display:inline-flex;align-items:center;gap:9px;padding:8px 16px;border:1px solid var(--line);border-radius:999px;background:rgba(10,22,50,.55);font-size:.8rem}
+.hint i{color:var(--accent)}
+
+/* ---------- the system ---------- */
+.stage{
+  --stage:min(900px,calc(100vh - var(--nav-h,57px) - 90px),calc(100vw - 32px));
+  position:relative;width:var(--stage);height:var(--stage);margin:18px auto 0;
+}
+.star{position:absolute;top:50%;left:50%;width:15%;aspect-ratio:1;margin:-7.5% 0 0 -7.5%;z-index:5}
+.corona{position:absolute;inset:-120%;border-radius:50%;pointer-events:none;animation:pulse 6s ease-in-out infinite;
+  background:radial-gradient(circle,rgba(255,214,150,.5),rgba(255,160,90,.24) 22%,rgba(150,120,255,.14) 45%,transparent 70%)}
+.core{position:absolute;inset:0;border-radius:50%;overflow:hidden;border:2px solid rgba(255,224,180,.65);
+  box-shadow:0 0 0 6px rgba(255,190,110,.10),0 0 40px 6px rgba(255,178,90,.45);background:radial-gradient(circle at 35% 30%,#ffd9a1,#ff9b46 55%,#a4460f)}
+.core img{width:100%;height:100%;object-fit:cover;display:block}
+.core .fallback{display:none;width:100%;height:100%;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:700;color:#3a1a02}
+.star.no-img img{display:none}.star.no-img .fallback{display:flex}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.09);opacity:1}}
+@keyframes orbit-path{
+  from{transform:translate(-50%,-50%) rotate(0) translateY(calc(var(--r) * -1)) rotate(0)}
+  to{transform:translate(-50%,-50%) rotate(360deg) translateY(calc(var(--r) * -1)) rotate(-360deg)}}
+
+.ring{position:absolute;top:50%;left:50%;width:var(--d);height:var(--d);margin:calc(var(--d) / -2) 0 0 calc(var(--d) / -2);border-radius:50%;pointer-events:none;
+  border:1px solid color-mix(in srgb,var(--rc) 38%,transparent);box-shadow:0 0 26px color-mix(in srgb,var(--rc) 10%,transparent) inset}
+.ring.r4{border-style:dashed;border-color:rgba(138,148,173,.32);box-shadow:none}
+
+.planet{position:absolute;top:50%;left:50%;width:var(--ps);height:var(--ps);text-decoration:none;color:inherit;outline:none;
+  animation:orbit-path var(--dur) linear infinite;animation-delay:var(--delay,0s);animation-direction:var(--dir,normal)}
+.planet:hover,.planet:focus-visible,.planet.active{z-index:10}
+.planet .body{position:relative;display:block;width:100%;height:100%;border-radius:50%;overflow:hidden;background:#0d1a35;
+  border:2px solid color-mix(in srgb,var(--rc) 70%,transparent);box-shadow:0 6px 22px rgba(0,0,0,.55),0 0 0 4px color-mix(in srgb,var(--rc) 12%,transparent);
+  transition:transform .28s cubic-bezier(.34,1.4,.64,1),box-shadow .28s,filter .28s}
+.planet .body img{width:100%;height:100%;object-fit:cover;display:block}
+.planet .fallback{position:absolute;inset:0;display:none;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-weight:700;font-size:calc(var(--ps) * .38);color:#dce8ff;background:linear-gradient(150deg,#223c74,#121f42)}
+.planet.no-img img{display:none}.planet.no-img .fallback{display:flex}
+.planet .body::after{content:"";position:absolute;inset:0;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle at 30% 24%,rgba(255,255,255,.3),transparent 46%),radial-gradient(circle at 76% 82%,rgba(0,10,40,.55),transparent 55%)}
+.planet .name{position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);font-size:clamp(10px,calc(var(--stage) * .0165),14px);
+  letter-spacing:.04em;color:rgba(190,208,242,.75);white-space:nowrap;text-shadow:0 1px 6px #000;transition:color .25s}
+.planet:hover .body,.planet:focus-visible .body,.planet.active .body{transform:scale(1.22);box-shadow:0 10px 30px rgba(0,0,0,.6),0 0 34px 4px color-mix(in srgb,var(--rc) 70%,transparent)}
+.planet:hover .name,.planet:focus-visible .name,.planet.active .name{color:#fff}
+
+/* Ring 4: Dormant / Direct-Summon deep thinker ring */
+.planet.r4 .body{filter:grayscale(.85) brightness(.75);border-style:dashed}
+.planet.r4 .name{color:rgba(147,156,180,.6);font-style:italic}
+.planet.r4:hover .body,.planet.r4.active .body,.planet.r4:focus-visible .body{filter:grayscale(.5) brightness(.9)}
+.planet.r4 .flag{position:absolute;top:-4px;right:-4px;z-index:2;width:calc(var(--ps) * .34);height:calc(var(--ps) * .34);min-width:14px;min-height:14px;border-radius:50%;
+  background:var(--warn);color:#2a1a00;display:flex;align-items:center;justify-content:center;font-size:calc(var(--ps) * .2);font-weight:700;box-shadow:0 0 8px rgba(255,180,84,.6)}
+.stage.pause-0 .ring-0,.stage.pause-1 .ring-1,.stage.pause-2 .ring-2,.stage.pause-3 .ring-3{animation-play-state:paused}
+
+/* ---------- ring guide ---------- */
+.guide{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:34px 0 0}
+.guide article{padding:16px 18px;border-radius:14px;background:rgba(10,20,44,.6);border:1px solid var(--line);border-top:3px solid var(--rc)}
+.guide h2{margin:0 0 6px;font-family:'Orbitron',sans-serif;font-weight:500;font-size:.85rem;letter-spacing:.08em;color:#fff}
+.guide p{margin:0 0 10px;font-size:.85rem;line-height:1.55;color:var(--dim)}
+.guide ul{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.guide li a{display:inline-block;padding:4px 10px;border-radius:999px;font-size:.78rem;color:var(--ink);text-decoration:none;border:1px solid var(--line);background:rgba(110,168,255,.07);transition:.2s}
+.guide li a:hover{border-color:var(--rc);background:rgba(255,255,255,.08)}
+.guide .r4{border-style:dashed;border-top-style:solid;background:rgba(40,40,52,.45)}
+
+.notice{margin:22px 0 0;display:flex;gap:14px;align-items:flex-start;padding:16px 20px;border-radius:14px;
+  border:1px solid rgba(255,180,84,.45);background:rgba(255,180,84,.08);text-align:left}
+.notice i{color:var(--warn);font-size:1.15rem;margin-top:2px}
+.notice strong{color:#fff}
+.notice p{margin:0;font-size:.9rem;line-height:1.6;color:#d8dfef}
+
+#popup{position:fixed;z-index:200;width:min(316px,calc(100vw - 28px));padding:15px 17px 14px;border-radius:14px;background:var(--card);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(150,185,255,.30);box-shadow:0 18px 50px rgba(0,0,0,.6);
+  opacity:0;transform:translateY(6px) scale(.97);transition:opacity .16s,transform .16s;pointer-events:none}
+#popup.show{opacity:1;transform:none}
+#popup .pop-head{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+#popup .pop-dot{width:9px;height:9px;border-radius:50%;flex:none;background:var(--pc);box-shadow:0 0 12px var(--pc)}
+#popup .pop-name{font-family:'Orbitron',sans-serif;font-weight:500;font-size:.85rem;letter-spacing:.09em;text-transform:uppercase;color:#fff}
+#popup .pop-ring{margin:0 0 9px;font-size:.72rem;color:var(--dim)}
+#popup .pop-blurb{margin:0 0 10px;font-size:.855rem;line-height:1.55;color:#c3d2f2}
+#popup .pop-warn{margin:0 0 10px;padding:8px 10px;border-radius:8px;font-size:.78rem;line-height:1.45;color:#ffd9a3;background:rgba(255,180,84,.12);border:1px solid rgba(255,180,84,.35)}
+#popup .pop-link{display:flex;align-items:center;gap:7px;font-size:.74rem;color:var(--accent);border-top:1px solid rgba(150,185,255,.16);padding-top:9px}
+
+@media (max-width:560px){.planet .name{display:none}body>nav{justify-content:center}}
+@media (prefers-reduced-motion:reduce){.corona{animation:none!important}.planet{animation-play-state:paused!important}}
+</style>
+</head>
+<body>
+<canvas id="starfield" aria-hidden="true"></canvas>
+
+<nav>
+  <div class="logo">The JDII Website</div>
+  <ul>
+    <li><a href="index.html"><i class="fa-solid fa-house"></i> Home</a></li>
+    <li><a href="about.html"><i class="fa-solid fa-user"></i> About</a></li>
+    <li><a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact</a></li>
+  </ul>
+</nav>
+
+<main class="page">
+  <header class="hero">
+    <h1>The JDAI Family</h1>
+    <p>Six specialized AI siblings orbiting my local Obsidian vault, arranged by how close they sit to the routing switchboard and how many backstage research hops they run.</p>
+    <p class="hint"><i class="fa-solid fa-hand-pointer"></i> <span id="hintText">Hover over a sibling to see their role &amp; model</span></p>
+  </header>
+
+  <div class="stage" id="stage">
+    <div class="star"><div class="corona"></div>
+      <div class="core"><img src="favicon.png" alt="JDII"><div class="fallback">JD</div></div>
+    </div>
+  </div>
+
+  <section class="guide" id="guide" aria-label="The four rings of the JDAI Family"></section>
+
+  <aside class="notice" role="note">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    <p><strong>A note on Ring 4 and System Privacy.</strong> Unlike the inner rings, <strong>Doode</strong> is locked out of Hermotron's automatic switchboard so he is never triggered by accident; he only wakes when addressed directly by name and must complete a mandatory 3-to-15-pass research loop before writing his report. Every member of the family runs under a strict OpenRouter Zero Data Retention lock (<code>"data_collection": "deny"</code>), using surgical <strong>Channel A</strong> queries backstage and full <strong>Channel B</strong> character voices on the mic.</p>
+  </aside>
+</main>
+
+<div id="popup" role="tooltip" aria-hidden="true">
+  <div class="pop-head"><span class="pop-dot"></span><span class="pop-name"></span></div>
+  <p class="pop-ring"></p>
+  <p class="pop-blurb"></p>
+  <p class="pop-warn"><i class="fa-solid fa-triangle-exclamation"></i> Locked out of auto-routing. Must be summoned directly by name and requires a mandatory 3–15 backstage research loop before answering.</p>
+  <div class="pop-link"><i class="fa-solid fa-microchip"></i><span></span></div>
+</div>
+
+<script>
+(function () {
+'use strict';
+var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+var isTouch = matchMedia('(hover: none)').matches;
+
+/* ===== DATA: edit here. Each item = [name, icon, spec, blurb] ===== */
+var RINGS = [
+  { name:'Ring 1', title:'The Switchboard', color:'#ffd08a', dur:52,
+    desc:'The entry-point router and microphone manager of the system. Zero backstage loops.',
+    items:[
+      ['Hermotron','icons/hermotron.jpg','qwen-2.5-7b-instruct • 0 Hops • Hermotron.md',
+       'The loyal, hyper-efficient middleman. He never answers prompts himself—instead routing requests to the right specialist and catching the mic via return_to_hermotron whenever a topic shifts.']]},
+  { name:'Ring 2', title:'The Data Gatherers', color:'#8fb8ff', dur:74,
+    desc:'Where the family keeps score and verifies facts. They handle direct lookups and answer Channel A sub-agent queries for their siblings.',
+    items:[
+      ['Spectrum','icons/spectrum.jpg','qwen-2.5-72b-instruct • 0–1 Hops • Spectrum.md',
+       "The dry, precise archivist who treats my Obsidian vault like a sacred library. Armed with search_vault, read_note, read_folder, and read_by_tag. Can consult Clipster once to verify external facts."],
+      ['Clipster','icons/clipster.jpg','gemini-2.5-flash • 0–1 Hops • Clipster.md',
+       'The adventuring web scavenger. Runs live DuckDuckGo searches (search_web) to pull current facts and URLs, and can call handoff_to_spectrum to cross-reference web findings against the vault.']]},
+  { name:'Ring 3', title:'The Specialists', color:'#b98cff', dur:100,
+    desc:'Frontstage specialists who blend full Channel B personas with optional backstage vault and web lookups.',
+    items:[
+      ['Wynter','icons/wynter.jpg','qwen-2.5-72b → l3.1-euryale-70b • 0–3 Hops • Wynter.md',
+       'The smut writer. Queries Spectrum and Clipster up to 3 times backstage for character lore and sensory setting details before switching to Euryale 70B for final synthesis.'],
+      ['Mesko','icons/mesko.jpg','llama-3.3-70b-instruct • 0–2 Hops • Mesko.md',
+       'The compassionate caretaker and grounding partner for daily overwhelm and venting. Quietly checks recent daily logs via Spectrum (up to 2 hops) while saving clinical topics for therapy prep notes.']]},
+  { name:'Ring 4', title:'The Deep Analyst', color:'#8a94ad', dur:132, stale:true,
+    desc:'Excluded from automatic routing. Reserved for quarterly personal retreats, deep essays, and massive multi-source reports.',
+    items:[
+      ['Doode','icons/doode.jpg','deepseek-chat → deepseek-r1 • 3–15 Hops • Doode.md',
+       'The deep thinker and essayist. Forbidden from writing his final output until he completes at least 3 (and up to 15) backstage research passes with Spectrum and Clipster, then synthesizes via DeepSeek-R1.']]}
+];
+/* radius / size as fractions of the stage; min = smallest planet in px */
+var GEOM = [
+  { rad:.19, size:.095, min:40 }, { rad:.29, size:.085, min:36 },
+  { rad:.38, size:.077, min:32 }, { rad:.465, size:.068, min:28 }
+];
+
+/* nav height */
+var nav = document.querySelector('body > nav');
+function navH(){ document.documentElement.style.setProperty('--nav-h', nav.offsetHeight + 'px'); }
+navH(); addEventListener('resize', navH);
+
+/* starfield */
+(function () {
+  var c = document.getElementById('starfield'), x = c.getContext('2d'), s = [], w, h, t = 0, raf = null;
+  function size() {
+    var d = Math.min(devicePixelRatio || 1, 2); w = c.clientWidth; h = c.clientHeight;
+    c.width = w * d; c.height = h * d; x.setTransform(d, 0, 0, d, 0, 0);
+    s = []; for (var i = 0, n = Math.min(500, w * h / 2600 | 0); i < n; i++)
+      s.push({ x:Math.random()*w, y:Math.random()*h, r:Math.random()*Math.random()*1.5+.25, a:Math.random()*.55+.25, f:Math.random()*.018+.004, p:Math.random()*6.28 });
+  }
+  function draw() {
+    x.clearRect(0, 0, w, h); t++;
+    s.forEach(function (q) {
+      var a = Math.max(.04, q.a + (reduce ? 0 : Math.sin(t * q.f + q.p) * .28));
+      x.beginPath(); x.arc(q.x, q.y, q.r, 0, 6.2832); x.fillStyle = 'rgba(255,255,255,' + a.toFixed(3) + ')'; x.fill();
+    });
+    if (!reduce) raf = requestAnimationFrame(draw);
+  }
+  size(); addEventListener('resize', function () { size(); if (reduce) draw(); });
+  draw();
+  document.addEventListener('visibilitychange', function () {
+    if (reduce) return;
+    if (document.hidden) { cancelAnimationFrame(raf); } else { raf = requestAnimationFrame(draw); }
+  });
+})();
+
+/* build orbits + ring guide */
+function initials(n){ var p = n.replace(/[^A-Za-z0-9 ]/g,'').split(/\s+/).filter(Boolean); return p.length > 1 ? (p[0][0]+p[1][0]).toUpperCase() : n.slice(0,2).toUpperCase(); }
+
+var stage = document.getElementById('stage'), guide = document.getElementById('guide'), planets = [];
+
+RINGS.forEach(function (R, ri) {
+  var g = GEOM[ri], n = R.items.length, cls = R.stale ? ' r4' : '';
+  var ring = document.createElement('div');
+  ring.className = 'ring' + cls;
+  ring.style.setProperty('--d', 'calc(var(--stage) * ' + (g.rad * 2) + ')');
+  ring.style.setProperty('--rc', R.color);
+  stage.appendChild(ring);
+
+  var art = document.createElement('article');
+  art.className = cls.trim(); art.style.setProperty('--rc', R.color);
+  art.innerHTML = '<h2></h2><p></p><ul></ul>';
+  art.querySelector('h2').textContent = R.name + ': ' + R.title;
+  art.querySelector('p').textContent = R.desc;
+  guide.appendChild(art);
+
+  R.items.forEach(function (it, k) {
+    var angle = 360 / n * k + ri * (180 / n);
+    var a = document.createElement('a');
+    a.className = 'planet ring-' + ri + cls;
+    a.href = '#' + it[0].toLowerCase();
+    a.style.setProperty('--rc', R.color);
+    a.style.setProperty('--ps', 'max(' + g.min + 'px, calc(var(--stage) * ' + g.size + '))');
+    a.style.setProperty('--r', 'calc(var(--stage) * ' + g.rad + ')');
+    a.style.setProperty('--dur', R.dur + 's');
+    a.style.setProperty('--dir', ri % 2 ? 'reverse' : 'normal');
+    a.style.setProperty('--delay', (-(angle / 360) * R.dur).toFixed(3) + 's');
+    a.setAttribute('aria-label', it[0] + ' (' + R.name + (R.stale ? ', direct-summon only' : '') + ')' + (it[3] ? ': ' + it[3] : ''));
+
+    var body = document.createElement('div'); body.className = 'body';
+    var img = document.createElement('img'); img.src = it[1]; img.alt = ''; img.loading = 'lazy';
+    img.addEventListener('error', function () { a.classList.add('no-img'); });
+    var fb = document.createElement('div'); fb.className = 'fallback'; fb.textContent = initials(it[0]);
+    body.appendChild(img); body.appendChild(fb);
+    var label = document.createElement('span'); label.className = 'name'; label.textContent = it[0];
+    a.appendChild(body); a.appendChild(label);
+    if (R.stale) { var f = document.createElement('span'); f.className = 'flag'; f.textContent = '!'; a.appendChild(f); }
+    stage.appendChild(a);
+    var pObj = { el:a, ring:ri, R:R, it:it };
+    planets.push(pObj);
+
+    var li = document.createElement('li'), l = document.createElement('a');
+    l.href = '#' + it[0].toLowerCase(); l.textContent = it[0];
+    l.addEventListener('click', function (e) {
+      e.preventDefault();
+      stage.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+      show(pObj);
+    });
+    li.appendChild(l); art.querySelector('ul').appendChild(li);
+  });
+});
+document.querySelectorAll('.star .core img').forEach(function (i) {
+  var fail = function () { i.closest('.star').classList.add('no-img'); };
+  i.addEventListener('error', fail); if (i.complete && !i.naturalWidth) fail();
+});
+
+/* popup */
+var popup = document.getElementById('popup'), cur = null;
+var $ = function (s) { return popup.querySelector(s); };
+function place(el) {
+  var r = el.getBoundingClientRect(); popup.style.left = popup.style.top = '0px';
+  var pw = popup.offsetWidth, ph = popup.offsetHeight;
+  var left = Math.max(12, Math.min(r.left + r.width/2 - pw/2, innerWidth - pw - 12));
+  var top = r.top - ph - 14; if (top < 12) top = r.bottom + 14;
+  if (top + ph > innerHeight - 12) top = Math.max(12, innerHeight - ph - 12);
+  popup.style.left = Math.round(left) + 'px'; popup.style.top = Math.round(top) + 'px';
+}
+function show(p) {
+  if (cur && cur.el !== p.el) hide();
+  cur = p; stage.classList.add('pause-' + p.ring); p.el.classList.add('active');
+  popup.style.setProperty('--pc', p.R.color);
+  $('.pop-name').textContent = p.it[0];
+  $('.pop-ring').textContent = p.R.name + ': ' + p.R.title;
+  $('.pop-blurb').textContent = p.it[3]; $('.pop-blurb').style.display = p.it[3] ? '' : 'none';
+  $('.pop-warn').style.display = p.R.stale ? '' : 'none';
+  $('.pop-link span').textContent = p.it[2];
+  popup.setAttribute('aria-hidden', 'false'); popup.classList.add('show');
+  place(p.el); requestAnimationFrame(function () { if (cur === p) place(p.el); });
+}
+function hide() {
+  if (!cur) return;
+  stage.classList.remove('pause-' + cur.ring); cur.el.classList.remove('active');
+  popup.classList.remove('show'); popup.setAttribute('aria-hidden', 'true'); cur = null;
+}
+planets.forEach(function (p) {
+  p.el.addEventListener('pointerenter', function (e) { if (e.pointerType !== 'touch') show(p); });
+  p.el.addEventListener('pointerleave', function (e) { if (e.pointerType !== 'touch') hide(); });
+  p.el.addEventListener('focus', function () { show(p); });
+  p.el.addEventListener('blur', hide);
+  p.el.addEventListener('click', function (e) {
+    e.preventDefault();
+    if (cur === p && isTouch) { hide(); } else { show(p); }
+  });
+});
+if (isTouch) {
+  document.getElementById('hintText').textContent = "Tap a sibling to see their role and model";
+  document.addEventListener('click', function (e) { if (cur && !e.target.closest('.planet') && !e.target.closest('.guide')) hide(); });
+}
+addEventListener('scroll', function () { if (cur) place(cur.el); }, { passive:true });
+addEventListener('resize', hide);
+document.addEventListener('keydown', function (e) { if (e.key === 'Escape') hide(); });
+
+
+/* Projects dropdown tap toggle for touch screens */
+document.querySelectorAll('.dropdown .drop-toggle').forEach(function (btn) {
+  btn.addEventListener('click', function (e) {
+    e.preventDefault();
+    btn.closest('.dropdown').classList.toggle('open');
+  });
+});
+document.addEventListener('click', function (e) {
+  if (!e.target.closest('.dropdown')) {
+    document.querySelectorAll('.dropdown.open').forEach(function (d) { d.classList.remove('open'); });
+  }
+});
+})();
+</script>
+</body>
+</html>

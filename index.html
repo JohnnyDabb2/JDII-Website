@@ -37,6 +37,29 @@ body>nav .logo{font-family:'Orbitron',sans-serif;font-weight:700;letter-spacing:
 body>nav ul{display:flex;gap:6px;list-style:none;margin:0;padding:0}
 body>nav ul li a{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;color:var(--dim);text-decoration:none;font-size:.88rem;font-weight:500;border:1px solid transparent;transition:.2s}
 body>nav ul li a:hover{color:#fff;background:rgba(110,168,255,.12);border-color:var(--line)}
+/* Dropdown Menu */
+body>nav ul li.dropdown{position:relative}
+body>nav ul li.dropdown .drop-toggle .caret{font-size:.7rem;transition:transform .2s}
+body>nav ul li.dropdown:hover .drop-toggle,
+body>nav ul li.dropdown:focus-within .drop-toggle,
+body>nav ul li.dropdown.open .drop-toggle{color:#fff;background:rgba(110,168,255,.12);border-color:var(--line)}
+body>nav ul li.dropdown:hover .caret,
+body>nav ul li.dropdown:focus-within .caret,
+body>nav ul li.dropdown.open .caret{transform:rotate(180deg)}
+
+body>nav .dropdown-menu{
+  position:absolute;top:calc(100% + 8px);left:0;min-width:210px;padding:6px;
+  display:flex;flex-direction:column;gap:4px;border-radius:14px;
+  background:var(--card);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid var(--line);box-shadow:0 16px 40px rgba(0,0,0,.6);
+  opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity .18s,transform .18s,visibility .18s;z-index:100;
+}
+/* Invisible bridge so the mouse doesn't lose hover across the 8px gap */
+body>nav .dropdown-menu::before{content:"";position:absolute;top:-10px;left:0;right:0;height:10px}
+body>nav ul li.dropdown:hover .dropdown-menu,
+body>nav ul li.dropdown:focus-within .dropdown-menu,
+body>nav ul li.dropdown.open .dropdown-menu{opacity:1;visibility:visible;transform:none}
+body>nav .dropdown-menu a{width:100%;border-radius:10px;padding:9px 12px;white-space:nowrap}
 
 main.page{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:0 clamp(16px,4vw,40px) 60px}
 .hero{text-align:center;padding:clamp(30px,5vw,56px) 0 0}
@@ -131,6 +154,15 @@ main.page{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:0 c
   <div class="logo">The JDII Website</div>
   <ul>
     <li><a href="index.html"><i class="fa-solid fa-house"></i> Home</a></li>
+    <li class="dropdown">
+      <a href="#" class="drop-toggle" aria-haspopup="true">
+        <i class="fa-solid fa-folder-open"></i> Projects <i class="fa-solid fa-chevron-down caret"></i>
+      </a>
+      <div class="dropdown-menu">
+        <a href="jdai.html"><i class="fa-solid fa-robot"></i> The JDAI Family</a>
+        <!-- Add future projects here as new <a> tags -->
+      </div>
+    </li>
     <li><a href="about.html"><i class="fa-solid fa-user"></i> About</a></li>
     <li><a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact</a></li>
   </ul>
@@ -153,7 +185,7 @@ main.page{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:0 c
 
   <aside class="notice" role="note">
     <i class="fa-solid fa-triangle-exclamation"></i>
-    <p><strong>A note on Ring 4.</strong> The sites in the outermost ring are ones I don't regularly update. Their information may be out of date, and looking at them alone could give you an inaccurate idea of who I am. For the real picture, start with the inner rings.</p>
+    <p><strong>A note on Ring 4.</strong> The sites in the outermost ring are ones I don't regularly update. Their information may be out of date, and looking at them alone could give you an inaccurate idea of who I am. For the real picture, look at the inner rings.</p>
   </aside>
 </main>
 
@@ -341,6 +373,19 @@ if (isTouch) {
 addEventListener('scroll', function () { if (cur) place(cur.el); }, { passive:true });
 addEventListener('resize', hide);
 document.addEventListener('keydown', function (e) { if (e.key === 'Escape') hide(); });
+
+/* Projects dropdown tap toggle for touch screens */
+document.querySelectorAll('.dropdown .drop-toggle').forEach(function (btn) {
+  btn.addEventListener('click', function (e) {
+    e.preventDefault();
+    btn.closest('.dropdown').classList.toggle('open');
+  });
+});
+document.addEventListener('click', function (e) {
+  if (!e.target.closest('.dropdown')) {
+    document.querySelectorAll('.dropdown.open').forEach(function (d) { d.classList.remove('open'); });
+  }
+});
 })();
 </script>
 </body>

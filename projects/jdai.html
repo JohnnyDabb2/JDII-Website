@@ -145,7 +145,7 @@ main.page{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:0 c
 
   <div class="stage" id="stage">
     <div class="star"><div class="corona"></div>
-      <div class="core"><img src="favicon.png" alt="JDII"><div class="fallback">JD</div></div>
+      <div class="core"><img src="favicon.png"><div class="fallback"></div></div>
     </div>
   </div>
 
@@ -177,12 +177,12 @@ var RINGS = [
     desc:'The entry-point router and microphone manager of the system. Zero backstage loops.',
     items:[
       ['Hermotron','icons/hermotron.jpg','qwen-2.5-7b-instruct • 0 Hops • Hermotron.md',
-       'The loyal, hyper-efficient middleman. He never answers prompts himself—instead routing requests to the right specialist and catching the mic via return_to_hermotron whenever a topic shifts.']]},
+       'The hyper-efficient middleman. Named after the messanger of the Greek gods, he never answers prompts himself. Instead, he loves routing requests to the right specialist and catching the mic via return_to_hermotron whenever a topic shifts.']]},
   { name:'Ring 2', title:'The Data Gatherers', color:'#8fb8ff', dur:74,
     desc:'Where the family keeps score and verifies facts. They handle direct lookups and answer Channel A sub-agent queries for their siblings.',
     items:[
       ['Spectrum','icons/spectrum.jpg','qwen-2.5-72b-instruct • 0–1 Hops • Spectrum.md',
-       "The dry, precise archivist who treats my Obsidian vault like a sacred library. Armed with search_vault, read_note, read_folder, and read_by_tag. Can consult Clipster once to verify external facts."],
+       "The dry, precise archivist who treats the Obsidian vault like a sacred library. Armed with search_vault, read_note, read_folder, and read_by_tag. Can consult Clipster once to verify external facts."],
       ['Clipster','icons/clipster.jpg','gemini-2.5-flash • 0–1 Hops • Clipster.md',
        'The adventuring web scavenger. Runs live DuckDuckGo searches (search_web) to pull current facts and URLs, and can call handoff_to_spectrum to cross-reference web findings against the vault.']]},
   { name:'Ring 3', title:'The Specialists', color:'#b98cff', dur:100,
